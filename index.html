@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mystery Rink Lab</title>
+  <meta
+    name="description"
+    content="Turvallinen anonyymi pulma- ja jääkiekkosivu, jossa yhdistyvät mysteerit, Rubikin kuutio ja jääkiekkotavoitteet."
+  />
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --card: #0f1f33;
+      --card2: #122844;
+      --text: #f3f7fb;
+      --muted: #a9bbcf;
+      --accent: #6ee7ff;
+      --accent2: #a7f3d0;
+      --danger: #fca5a5;
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(110,231,255,.22), transparent 28rem),
+        radial-gradient(circle at top right, rgba(167,243,208,.16), transparent 24rem),
+        linear-gradient(180deg, #07111f 0%, #0b1728 55%, #07111f 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: .03em;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #06111f;
+      box-shadow: 0 12px 30px rgba(110,231,255,.18);
+    }
+
+    nav {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 8px 10px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+    }
+
+    nav a:hover {
+      border-color: var(--border);
+      color: var(--text);
+      background: rgba(255,255,255,.04);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px 70px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+
+    .hero-card,
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-card {
+      padding: 34px;
+      min-height: 370px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card:after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -120px;
+      width: 310px;
+      height: 310px;
+      border-radius: 50%;
+      border: 44px solid rgba(110,231,255,.08);
+    }
+
+    .eyebrow {
+      color: var(--accent2);
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 7vw, 74px);
+      line-height: .95;
+      margin: 0 0 20px;
+      letter-spacing: -.06em;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+      max-width: 680px;
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+      position: relative;
+      z-index: 1;
+    }
+
+    button,
+    .button {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 750;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #06111f;
+      text-decoration: none;
+    }
+
+    .ghost-button {
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .side-panel {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .avatar {
+      min-height: 210px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(110,231,255,.32), transparent 7rem),
+        linear-gradient(135deg, rgba(110,231,255,.12), rgba(167,243,208,.08));
+      display: grid;
+      place-items: center;
+      font-size: 84px;
+    }
+
+    .status-box {
+      background: rgba(0,0,0,.18);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .status-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .status-box p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .wide {
+      grid-column: span 2;
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      letter-spacing: -.02em;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+    }
+
+    .challenge-box {
+      background: rgba(0,0,0,.22);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    .challenge-box p {
+      margin-top: 0;
+    }
+
+    .answer {
+      display: none;
+      color: var(--accent2);
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .answer.visible {
+      display: block;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .metric-row:last-child {
+      border-bottom: 0;
+    }
+
+    .metric-row strong {
+      color: var(--text);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    .safety {
+      border-color: rgba(252,165,165,.22);
+      background: linear-gradient(180deg, rgba(252,165,165,.08), rgba(255,255,255,.035));
+    }
+
+    footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px 36px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 820px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      .hero,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wide {
+        grid-column: span 1;
+      }
+
+      .hero-card {
+        padding: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-mark">🧊</div>
+      <div>Mystery Rink Lab</div>
+    </div>
+
+    <nav aria-label="Päävalikko">
+      <a href="#pulmat">Pulmat</a>
+      <a href="#kuutio">Kuutio</a>
+      <a href="#kiekko">Jääkiekko</a>
+      <a href="#mysteerit">Mysteerit</a>
+      <a href="#turva">Turva</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Jää · Pulmat · Mysteerit</div>
+        <h1>Ongelmanratkaisijan oma laboratorio.</h1>
+        <p class="lead">
+          Täällä yhdistyvät jääkiekko, Rubikin kuutio, salakoodit ja pienet mysteerit.
+          Sivun tekijä käyttää nimimerkkiä eikä julkaise koko nimeä, valokuvia, videoita,
+          joukkuetta tai aikatauluja.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button" href="#pulmat">Ratkaise päivän pulma</a>
+          <a class="button ghost-button" href="#mysteerit">Avaa mysteeritoimisto</a>
+        </div>
+      </div>
+
+      <aside class="hero-card side-panel" aria-label="Sivun hahmo">
+        <div class="avatar" aria-hidden="true">🏒🕵️‍♂️</div>
+
+        <div class="status-box">
+          <strong>Nimimerkki</strong>
+          <p>Agentti 11 — jäällä nopea, pulmien kanssa kärsivällinen.</p>
+        </div>
+
+        <div class="status-box">
+          <strong>Tämän kuukauden teema</strong>
+          <p>Harjoittele rauhallista ajattelua myös silloin, kun tilanne muuttuu nopeasti.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid" id="pulmat">
+      <article class="card wide">
+        <h2>Päivän pulma</h2>
+        <p>
+          Kolme pelaajaa oli jäällä. Yhdellä oli sininen maila, yhdellä musta maila
+          ja yhdellä valkoinen maila. Maalin teki pelaaja, jolla ei ollut sinistä
+          eikä valkoista mailaa.
+        </p>
+
+        <div class="challenge-box">
+          <p><strong>Kysymys:</strong> minkä värinen maila maalintekijällä oli?</p>
+          <button onclick="toggleAnswer('answer1')">Näytä ratkaisu</button>
+          <div class="answer" id="answer1">Ratkaisu: musta maila.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Anna minulle haaste</h2>
+        <p>Paina nappia ja saat satunnaisen pulma-, kuutio- tai jääkiekkotehtävän.</p>
+        <button onclick="newChallenge()">Uusi haaste</button>
+        <div class="challenge-box">
+          <p id="randomChallenge">Ratkaise yksi logiikkapulma ilman vihjeitä.</p>
+        </div>
+      </article>
+
+      <article class="card" id="kuutio">
+        <h2>Rubikin kuutio</h2>
+        <div class="metric-row">
+          <span>3x3 tavoite</span>
+          <strong>alle 60 s</strong>
+        </div>
+        <div class="metric-row">
+          <span>Seuraava taito</span>
+          <strong>F2L</strong>
+        </div>
+        <div class="metric-row">
+          <span>Treenimoodi</span>
+          <strong>rauhallinen</strong>
+        </div>
+
+        <div class="tag-list">
+          <span class="tag">3x3</span>
+          <span class="tag">2x2</span>
+          <span class="tag">algoritmit</span>
+          <span class="tag">ennätykset</span>
+        </div>
+      </article>
+
+      <article class="card" id="kiekko">
+        <h2>Jääkiekkolabra</h2>
+        <p>
+          Tähän voi kerätä turvallisesti yleisiä taitotavoitteita ilman joukkueen,
+          hallin tai aikataulujen julkaisemista.
+        </p>
+        <ul>
+          <li>Tämän viikon tavoite: katse ylös ennen syöttöä.</li>
+          <li>Tämän kuukauden tavoite: parempi laukauksen tarkkuus.</li>
+          <li>Paras oppi: hyvä syöttö voi olla yhtä tärkeä kuin maali.</li>
+        </ul>
+      </article>
+
+      <article class="card wide" id="mysteerit">
+        <h2>Mysteeritoimisto</h2>
+        <p>
+          Case #001: Joukkueen onnenkiekko katosi pukukopista. Paikalla olivat
+          maalivahti, kapteeni ja huoltaja. Yksi heistä sanoi jotain, mikä ei voi
+          pitää paikkaansa.
+        </p>
+
+        <div class="challenge-box">
+          <p>
+            <strong>Vihje:</strong> Maalivahti sanoi: “En nähnyt kiekkoa, koska olin jo jäällä.”
+            Kapteeni sanoi: “Kiekko oli vielä pöydällä, kun lähdin.”
+            Huoltaja sanoi: “Kukaan ei käynyt kopissa kapteenin jälkeen.”
+          </p>
+          <button onclick="toggleAnswer('answer2')">Näytä ratkaisu</button>
+          <div class="answer" id="answer2">
+            Ratkaisuidea: jos kapteeni näki kiekon pöydällä lähtiessään ja huoltaja sanoo,
+            ettei kukaan käynyt sen jälkeen kopissa, huoltajan väite on epäilyttävä.
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Salakoodinurkka</h2>
+        <p>
+          Päivän koodi:
+          <br />
+          <strong>LJFLLP</strong>
+        </p>
+        <p>Vihje: jokainen kirjain on siirretty yhden eteenpäin.</p>
+        <button onclick="toggleAnswer('answer3')">Näytä ratkaisu</button>
+        <div class="answer" id="answer3">Ratkaisu: KIEKKO.</div>
+      </article>
+
+      <article class="card">
+        <h2>Projektihylly</h2>
+        <p>Tänne voi myöhemmin lisätä omia pieniä projekteja.</p>
+        <ul>
+          <li>Oma mysteeritarina</li>
+          <li>Oma salakirjoitus</li>
+          <li>Oma selainpeli</li>
+          <li>Oma kuutio-opas</li>
+        </ul>
+      </article>
+
+      <article class="card safety wide" id="turva">
+        <h2>Turvallisuuslinja</h2>
+        <p>
+          Tällä sivulla ei julkaista koko nimeä, kasvoja, videoita, koulua,
+          kotiosoitetta, joukkuetta, jäähallia, peliaikatauluja, treeniaikoja
+          tai suoria yhteystietoja.
+        </p>
+        <p>
+          Sivun tarkoitus on esitellä kiinnostuksia, pulmia ja projekteja —
+          ei henkilötietoja.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    © Mystery Rink Lab. Anonyymi lasten projektisivu. Ei henkilötietoja.
+  </footer>
+
+  <script>
+    const challenges = [
+      "Ratkaise yksi logiikkapulma ilman vihjeitä.",
+      "Keksi oma kolmen vihjeen mysteeri.",
+      "Harjoittele Rubikin kuution yhtä algoritmia 10 kertaa rauhassa.",
+      "Kirjoita salakoodi, jonka vain sinä osaat purkaa.",
+      "Piirrä paperille oma jääkiekkotaktiikka.",
+      "Keksi mysteeri, jossa tärkein vihje on väri.",
+      "Ratkaise kuutio mahdollisimman rauhallisesti, ei mahdollisimman nopeasti.",
+      "Keksi uusi nimi salaiselle etsivätoimistolle.",
+      "Kirjoita kolme asiaa, jotka hyvä joukkuepelaaja tekee.",
+      "Tee pulma, jossa vastaus on jokin jääkiekkoon liittyvä sana."
+    ];
+
+    function toggleAnswer(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle("visible");
+    }
+
+    function newChallenge() {
+      const random = challenges[Math.floor(Math.random() * challenges.length)];
+      document.getElementById("randomChallenge").textContent = random;
+    }
+  </script>
+</body>
+</html>
