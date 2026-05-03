@@ -304,6 +304,55 @@
       display: none;
       margin-top: 14px;
     }
+    .mystery-guess-label {
+      display: block;
+      margin: 16px 0 8px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    
+    .mystery-guess-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      background: rgba(0,0,0,.24);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+    
+    .mystery-guess-input::placeholder {
+      color: rgba(169,187,207,.72);
+    }
+    
+    .mystery-guess-input:focus {
+      border-color: rgba(110,231,255,.65);
+      box-shadow: 0 0 0 3px rgba(110,231,255,.12);
+    }
+    
+    .mystery-answer-button-disabled:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      filter: grayscale(.35);
+    }
+    
+    .mystery-own-answer {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    
+    .mystery-own-answer.visible {
+      display: block;
+    }
     
     .next-mystery-button.visible {
       display: inline-block;
@@ -501,19 +550,41 @@
       
         <div class="challenge-box mystery-case-box">
           <h3 id="mysteryTitle">Case #001: Kadonnut onnenkiekko</h3>
-      
+        
           <p id="mysteryText">
             Joukkueen onnenkiekko katosi pukukopista. Maalivahti sanoi: “En nähnyt kiekkoa, koska olin jo jäällä.”
             Kapteeni sanoi: “Kiekko oli vielä pöydällä, kun lähdin.”
             Huoltaja sanoi: “Kukaan ei käynyt kopissa kapteenin jälkeen.”
           </p>
-      
-          <button id="showMysteryAnswerBtn" onclick="showMysteryAnswer()">Näytä vastaus</button>
-      
+        
+          <label class="mystery-guess-label" for="mysteryGuess">
+            Oma vastaus ennen ratkaisua:
+          </label>
+        
+          <input
+            id="mysteryGuess"
+            class="mystery-guess-input"
+            type="text"
+            placeholder="Kirjoita oma arvauksesi tähän..."
+            autocomplete="off"
+            oninput="handleMysteryGuessInput()"
+          />
+        
+          <button
+            id="showMysteryAnswerBtn"
+            class="mystery-answer-button-disabled"
+            onclick="showMysteryAnswer()"
+            disabled
+          >
+            Näytä vastaus
+          </button>
+        
           <div class="answer" id="mysteryAnswer">
             Ratkaisuidea: huoltajan väite on epäilyttävä. Jos kapteeni näki kiekon vielä pöydällä ja kukaan ei muka käynyt sen jälkeen kopissa, kiekko ei olisi voinut kadota.
           </div>
-      
+        
+          <div class="mystery-own-answer" id="mysteryOwnAnswer"></div>
+        
           <button
             id="nextMysteryBtn"
             class="next-mystery-button"
@@ -642,12 +713,48 @@
       document.getElementById("mysteryText").textContent = mystery.text;
       document.getElementById("mysteryAnswer").textContent = mystery.answer;
     
+      const guessInput = document.getElementById("mysteryGuess");
+      const answerButton = document.getElementById("showMysteryAnswerBtn");
+      const ownAnswerBox = document.getElementById("mysteryOwnAnswer");
+    
+      guessInput.value = "";
+    
+      answerButton.disabled = true;
+      answerButton.classList.add("mystery-answer-button-disabled");
+      answerButton.style.display = "inline-block";
+    
+      ownAnswerBox.textContent = "";
+      ownAnswerBox.classList.remove("visible");
+    
       document.getElementById("mysteryAnswer").classList.remove("visible");
       document.getElementById("nextMysteryBtn").classList.remove("visible");
-      document.getElementById("showMysteryAnswerBtn").style.display = "inline-block";
+    }
+    
+    function handleMysteryGuessInput() {
+      const guess = document.getElementById("mysteryGuess").value.trim();
+      const answerButton = document.getElementById("showMysteryAnswerBtn");
+    
+      if (guess.length > 0) {
+        answerButton.disabled = false;
+        answerButton.classList.remove("mystery-answer-button-disabled");
+      } else {
+        answerButton.disabled = true;
+        answerButton.classList.add("mystery-answer-button-disabled");
+      }
     }
     
     function showMysteryAnswer() {
+      const guess = document.getElementById("mysteryGuess").value.trim();
+    
+      if (guess.length === 0) {
+        return;
+      }
+    
+      const ownAnswerBox = document.getElementById("mysteryOwnAnswer");
+    
+      ownAnswerBox.textContent = "Oma vastauksesi: " + guess;
+      ownAnswerBox.classList.add("visible");
+    
       document.getElementById("mysteryAnswer").classList.add("visible");
       document.getElementById("nextMysteryBtn").classList.add("visible");
       document.getElementById("showMysteryAnswerBtn").style.display = "none";
