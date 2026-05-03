@@ -300,6 +300,20 @@
     .answer.visible {
       display: block;
     }
+    .next-mystery-button {
+      display: none;
+      margin-top: 14px;
+    }
+    
+    .next-mystery-button.visible {
+      display: inline-block;
+    }
+    
+    .mystery-case-box h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -.01em;
+    }
 
     .metric-row {
       display: grid;
@@ -482,141 +496,33 @@
       <article class="card wide" id="mysteerit">
         <h2>Mysteeritoimisto</h2>
         <p>
-          Tervetuloa tutkimaan pieniä mysteerejä. Lue vihjeet, mieti rauhassa ja avaa ratkaisu vasta lopuksi.
+          Ratkaise yksi mysteeri kerrallaan. Lue vihjeet, mieti rauhassa ja avaa vastaus vasta lopuksi.
         </p>
       
-        <div class="challenge-box">
-          <h3>Case #001: Kadonnut onnenkiekko</h3>
-          <p>
+        <div class="challenge-box mystery-case-box">
+          <h3 id="mysteryTitle">Case #001: Kadonnut onnenkiekko</h3>
+      
+          <p id="mysteryText">
             Joukkueen onnenkiekko katosi pukukopista. Maalivahti sanoi: “En nähnyt kiekkoa, koska olin jo jäällä.”
             Kapteeni sanoi: “Kiekko oli vielä pöydällä, kun lähdin.”
             Huoltaja sanoi: “Kukaan ei käynyt kopissa kapteenin jälkeen.”
           </p>
-          <button onclick="toggleAnswer('case1')">Näytä ratkaisu</button>
-          <div class="answer" id="case1">
+      
+          <button id="showMysteryAnswerBtn" onclick="showMysteryAnswer()">Näytä vastaus</button>
+      
+          <div class="answer" id="mysteryAnswer">
             Ratkaisuidea: huoltajan väite on epäilyttävä. Jos kapteeni näki kiekon vielä pöydällä ja kukaan ei muka käynyt sen jälkeen kopissa, kiekko ei olisi voinut kadota.
           </div>
-        </div>
       
-        <div class="challenge-box">
-          <h3>Case #002: Väärä luistinjälki</h3>
-          <p>
-            Jäälle oli ilmestynyt salainen viesti: “KATSO KAAPPIIN”. Vieressä näkyi vain yhdet luistinjäljet.
-            Epäilty sanoi: “En voinut tehdä sitä, koska minulla oli lenkkarit jalassa koko ajan.”
-            Silti hänen mailansa oli märkä.
-          </p>
-          <button onclick="toggleAnswer('case2')">Näytä ratkaisu</button>
-          <div class="answer" id="case2">
-            Ratkaisuidea: märkä maila paljastaa, että hän oli käynyt jäällä tai koskenut jäähän. Lenkkariväite ei yksin pelasta häntä.
-          </div>
+          <button
+            id="nextMysteryBtn"
+            class="next-mystery-button"
+            onclick="nextMystery()"
+          >
+            Näytä seuraava mysteeri
+          </button>
         </div>
-      
-        <div class="challenge-box">
-          <h3>Case #003: Rubikin kuution vaihdetut tarrat</h3>
-          <p>
-            Rubikin kuutio oli ratkaistu illalla täydellisesti. Aamulla kaikki värit näyttivät oudoilta.
-            Pikkuveli sanoi: “En ratkaissut sitä.” Sisko sanoi: “En edes koskenut kuutioon.”
-            Pöydällä oli pieniä värillisiä tarranpaloja.
-          </p>
-          <button onclick="toggleAnswer('case3')">Näytä ratkaisu</button>
-          <div class="answer" id="case3">
-            Ratkaisuidea: joku ei välttämättä ratkaissut kuutiota, vaan vaihtoi tarroja. Siksi “en ratkaissut sitä” voi olla totta mutta silti harhaanjohtavaa.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #004: Kadonnut pelinumero</h3>
-          <p>
-            Joukkueen taululta katosi yksi magneettinen pelinumero. Kolme pelaajaa oli paikalla.
-            Yksi sanoi: “Olin hakemassa vettä.” Toinen sanoi: “En ylettynyt taululle.”
-            Kolmas sanoi: “En edes huomannut koko taulua.”
-            Kadonnut numero löytyi vesipullon alta.
-          </p>
-          <button onclick="toggleAnswer('case4')">Näytä ratkaisu</button>
-          <div class="answer" id="case4">
-            Ratkaisuidea: vesipullon alla ollut numero viittaa siihen, että vettä hakemassa ollut pelaaja oli ainakin lähimpänä johtolankaa.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #005: Salainen koodi käytävällä</h3>
-          <p>
-            Käytävän taululle oli kirjoitettu koodi: 11-9-5-11-11-15.
-            Vihjeenä luki: “A=1, B=2, C=3...”
-            Mitä koodissa lukee?
-          </p>
-          <button onclick="toggleAnswer('case5')">Näytä ratkaisu</button>
-          <div class="answer" id="case5">
-            Ratkaisu: 11=K, 9=I, 5=E, 11=K, 11=K, 15=O. Sana on KIEKKO.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #006: Liian nopea selitys</h3>
-          <p>
-            Mailateippi katosi juuri ennen harjoituksia. Pelaaja A sanoi heti: “Sen teki varmasti pelaaja B.”
-            Pelaaja B sanoi: “En tiennyt edes, että teippi oli kadonnut.”
-            Pelaaja C sanoi: “Näin A:n tutkimassa varustekassia ennen treenejä.”
-          </p>
-          <button onclick="toggleAnswer('case6')">Näytä ratkaisu</button>
-          <div class="answer" id="case6">
-            Ratkaisuidea: Pelaaja A on epäilyttävä, koska hän syytti toista liian nopeasti ja hänet nähtiin varustekassin lähellä.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #007: Hiljainen hälytys</h3>
-          <p>
-            Huoneessa oli laatikko, jossa oli pieni kello. Jos laatikko avattiin, kellon piti soida.
-            Aamulla laatikko oli auki, mutta kukaan ei ollut kuullut ääntä.
-            Pöydällä oli paksut villasukat ja kellon vieressä pieni tyyny.
-          </p>
-          <button onclick="toggleAnswer('case7')">Näytä ratkaisu</button>
-          <div class="answer" id="case7">
-            Ratkaisuidea: joku vaimensi äänen tyynyllä tai pehmeällä materiaalilla. Siksi laatikko voitiin avata ilman, että ääni kuului kunnolla.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #008: Märkä hanska</h3>
-          <p>
-            Salainen viesti oli piilotettu jäähallin penkin alle. Kolme henkilöä sanoi, ettei ollut käynyt penkin lähellä.
-            Yhden hanska oli kuitenkin märkä ja siinä oli pieni pala teippiä.
-            Penkin alla oli juuri samanlaista teippiä.
-          </p>
-          <button onclick="toggleAnswer('case8')">Näytä ratkaisu</button>
-          <div class="answer" id="case8">
-            Ratkaisuidea: märkä hanska ja samanlainen teippi yhdistävät henkilön penkin alle piilotettuun viestiin.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #009: Kuka muutti taulukon?</h3>
-          <p>
-            Kuutioennätysten taulukossa luki eilen “1 min 12 s”. Tänään siinä luki “12 s”.
-            Kukaan ei myöntänyt muuttaneensa sitä.
-            Näppäimistön vieressä oli pieni lappu, jossa luki: “poista kaksi merkkiä”.
-          </p>
-          <button onclick="toggleAnswer('case9')">Näytä ratkaisu</button>
-          <div class="answer" id="case9">
-            Ratkaisuidea: joku poisti tekstistä “1 min ”, jolloin jäljelle jäi vain “12 s”. Ennätys ei oikeasti parantunut, vaan merkintää muokattiin.
-          </div>
-        </div>
-      
-        <div class="challenge-box">
-          <h3>Case #010: Viimeinen palanen</h3>
-          <p>
-            Palapelistä puuttui yksi pala. Epäilty sanoi: “En pidä palapeleistä, joten en koskenut siihen.”
-            Myöhemmin puuttuva pala löytyi hänen kirjansa välistä.
-            Kirja oli auki kohdasta, jossa luki: “Piilota tärkein johtolanka näkyvälle paikalle.”
-          </p>
-          <button onclick="toggleAnswer('case10')">Näytä ratkaisu</button>
-          <div class="answer" id="case10">
-            Ratkaisuidea: pala kirjassa on vahva vihje. Epäilty saattoi piilottaa sen kirjan väliin, koska ajatteli ettei kukaan etsisi sieltä.
-          </div>
-        </div>
-      </article>
-      
+      </article>      
 
       
       <div class="card-pair">
@@ -673,6 +579,88 @@
     function newChallenge() {
       const random = challenges[Math.floor(Math.random() * challenges.length)];
       document.getElementById("randomChallenge").textContent = random;
+    }
+    const mysteries = [
+      {
+        title: "Case #001: Kadonnut onnenkiekko",
+        text: "Joukkueen onnenkiekko katosi pukukopista. Maalivahti sanoi: “En nähnyt kiekkoa, koska olin jo jäällä.” Kapteeni sanoi: “Kiekko oli vielä pöydällä, kun lähdin.” Huoltaja sanoi: “Kukaan ei käynyt kopissa kapteenin jälkeen.”",
+        answer: "Ratkaisuidea: huoltajan väite on epäilyttävä. Jos kapteeni näki kiekon vielä pöydällä ja kukaan ei muka käynyt sen jälkeen kopissa, kiekko ei olisi voinut kadota."
+      },
+      {
+        title: "Case #002: Väärä luistinjälki",
+        text: "Jäälle oli ilmestynyt salainen viesti: “KATSO KAAPPIIN”. Vieressä näkyi vain yhdet luistinjäljet. Epäilty sanoi: “En voinut tehdä sitä, koska minulla oli lenkkarit jalassa koko ajan.” Silti hänen mailansa oli märkä.",
+        answer: "Ratkaisuidea: märkä maila paljastaa, että hän oli käynyt jäällä tai koskenut jäähän. Lenkkariväite ei yksin pelasta häntä."
+      },
+      {
+        title: "Case #003: Rubikin kuution vaihdetut tarrat",
+        text: "Rubikin kuutio oli ratkaistu illalla täydellisesti. Aamulla kaikki värit näyttivät oudoilta. Pikkuveli sanoi: “En ratkaissut sitä.” Sisko sanoi: “En edes koskenut kuutioon.” Pöydällä oli pieniä värillisiä tarranpaloja.",
+        answer: "Ratkaisuidea: joku ei välttämättä ratkaissut kuutiota, vaan vaihtoi tarroja. Siksi “en ratkaissut sitä” voi olla totta mutta silti harhaanjohtavaa."
+      },
+      {
+        title: "Case #004: Kadonnut pelinumero",
+        text: "Joukkueen taululta katosi yksi magneettinen pelinumero. Kolme pelaajaa oli paikalla. Yksi sanoi: “Olin hakemassa vettä.” Toinen sanoi: “En ylettynyt taululle.” Kolmas sanoi: “En edes huomannut koko taulua.” Kadonnut numero löytyi vesipullon alta.",
+        answer: "Ratkaisuidea: vesipullon alla ollut numero viittaa siihen, että vettä hakemassa ollut pelaaja oli ainakin lähimpänä johtolankaa."
+      },
+      {
+        title: "Case #005: Salainen koodi käytävällä",
+        text: "Käytävän taululle oli kirjoitettu koodi: 11-9-5-11-11-15. Vihjeenä luki: “A=1, B=2, C=3...” Mitä koodissa lukee?",
+        answer: "Ratkaisu: 11=K, 9=I, 5=E, 11=K, 11=K, 15=O. Sana on KIEKKO."
+      },
+      {
+        title: "Case #006: Liian nopea selitys",
+        text: "Mailateippi katosi juuri ennen harjoituksia. Pelaaja A sanoi heti: “Sen teki varmasti pelaaja B.” Pelaaja B sanoi: “En tiennyt edes, että teippi oli kadonnut.” Pelaaja C sanoi: “Näin A:n tutkimassa varustekassia ennen treenejä.”",
+        answer: "Ratkaisuidea: Pelaaja A on epäilyttävä, koska hän syytti toista liian nopeasti ja hänet nähtiin varustekassin lähellä."
+      },
+      {
+        title: "Case #007: Hiljainen hälytys",
+        text: "Huoneessa oli laatikko, jossa oli pieni kello. Jos laatikko avattiin, kellon piti soida. Aamulla laatikko oli auki, mutta kukaan ei ollut kuullut ääntä. Pöydällä oli paksut villasukat ja kellon vieressä pieni tyyny.",
+        answer: "Ratkaisuidea: joku vaimensi äänen tyynyllä tai pehmeällä materiaalilla. Siksi laatikko voitiin avata ilman, että ääni kuului kunnolla."
+      },
+      {
+        title: "Case #008: Märkä hanska",
+        text: "Salainen viesti oli piilotettu jäähallin penkin alle. Kolme henkilöä sanoi, ettei ollut käynyt penkin lähellä. Yhden hanska oli kuitenkin märkä ja siinä oli pieni pala teippiä. Penkin alla oli juuri samanlaista teippiä.",
+        answer: "Ratkaisuidea: märkä hanska ja samanlainen teippi yhdistävät henkilön penkin alle piilotettuun viestiin."
+      },
+      {
+        title: "Case #009: Kuka muutti taulukon?",
+        text: "Kuutioennätysten taulukossa luki eilen “1 min 12 s”. Tänään siinä luki “12 s”. Kukaan ei myöntänyt muuttaneensa sitä. Näppäimistön vieressä oli pieni lappu, jossa luki: “poista kaksi merkkiä”.",
+        answer: "Ratkaisuidea: joku poisti tekstistä “1 min ”, jolloin jäljelle jäi vain “12 s”. Ennätys ei oikeasti parantunut, vaan merkintää muokattiin."
+      },
+      {
+        title: "Case #010: Viimeinen palanen",
+        text: "Palapelistä puuttui yksi pala. Epäilty sanoi: “En pidä palapeleistä, joten en koskenut siihen.” Myöhemmin puuttuva pala löytyi hänen kirjansa välistä. Kirja oli auki kohdasta, jossa luki: “Piilota tärkein johtolanka näkyvälle paikalle.”",
+        answer: "Ratkaisuidea: pala kirjassa on vahva vihje. Epäilty saattoi piilottaa sen kirjan väliin, koska ajatteli ettei kukaan etsisi sieltä."
+      }
+    ];
+    
+    let currentMysteryIndex = 0;
+    
+    function renderMystery() {
+      const mystery = mysteries[currentMysteryIndex];
+    
+      document.getElementById("mysteryTitle").textContent = mystery.title;
+      document.getElementById("mysteryText").textContent = mystery.text;
+      document.getElementById("mysteryAnswer").textContent = mystery.answer;
+    
+      document.getElementById("mysteryAnswer").classList.remove("visible");
+      document.getElementById("nextMysteryBtn").classList.remove("visible");
+      document.getElementById("showMysteryAnswerBtn").style.display = "inline-block";
+    }
+    
+    function showMysteryAnswer() {
+      document.getElementById("mysteryAnswer").classList.add("visible");
+      document.getElementById("nextMysteryBtn").classList.add("visible");
+      document.getElementById("showMysteryAnswerBtn").style.display = "none";
+    }
+    
+    function nextMystery() {
+      currentMysteryIndex = currentMysteryIndex + 1;
+    
+      if (currentMysteryIndex >= mysteries.length) {
+        currentMysteryIndex = 0;
+      }
+    
+      renderMystery();
     }
   </script>
 </body>
